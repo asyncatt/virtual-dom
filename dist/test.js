@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e175088aeaecde0453ec"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c4084fca1f73fb159f96"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -674,7 +674,12 @@
 
 	  for (var propName in props) {
 	    var propValue = props[propName];
-	    _.setAttr(el, propName, propValue);
+
+	    if (_.isEvent(propName)) {
+	      _.setEvent(el, propName, propValue);
+	    } else {
+	      _.setAttr(el, propName, propValue);
+	    }
 	  }
 
 	  _.each(this.children, function (child) {
@@ -750,10 +755,27 @@
 	        node.setAttribute(key, value);
 	      }
 	      break;
+	    case 'className':
+	      node.setAttribute('class', value);
 	    default:
-	      node.setAttribute(key, value);
+	      if (value) {
+	        node.setAttribute(key, value);
+	      }
 	      break;
 	  }
+	};
+
+	//事件处理
+	_.isEvent = function isEvent(name) {
+	  return (/^on/.test(name)
+	  );
+	};
+
+	//事件绑定
+	_.setEvent = function setEvent(node, name, fn) {
+	  var _name = name.slice(2).toLowerCase();
+	  console.log(_name);
+	  node.addEventListener(_name, fn);
 	};
 
 /***/ },
@@ -928,6 +950,8 @@
 	  for (var key in props) {
 	    if (props[key] === void 666) {
 	      node.removeAttribute(key);
+	    } else if (_.isEvent(key)) {
+	      _.setEvent(node, key, value);
 	    } else {
 	      var value = props[key];
 	      _.setAttr(node, key, value);

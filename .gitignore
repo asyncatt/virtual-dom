@@ -1,0 +1,7 @@
+node_modules
+build/
+dist/
+client/dist/
+npm-debug.log
+.idea
+.idea/

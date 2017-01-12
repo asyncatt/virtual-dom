@@ -57,8 +57,27 @@ _.setAttr = function setAttr (node, key, value) {
         node.setAttribute(key, value)
       }
       break
+    case 'className':
+      node.setAttribute('class', value)
     default:
-      node.setAttribute(key, value)
+      if(value){
+        node.setAttribute(key, value)
+      }
       break
   }
+}
+
+//事件处理
+_.isEvent = function isEvent ( name ) {
+  return /^on/.test(name);
+}
+
+//事件绑定
+_.setEvent = function setEvent (node, name, fn) {
+  let _name = name.slice(2).toLowerCase();
+  console.log(_name)
+  node.addEventListener(
+    _name,
+    fn
+  );
 }

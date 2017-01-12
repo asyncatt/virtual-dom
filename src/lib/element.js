@@ -51,7 +51,12 @@ Element.prototype.render = function () {
 
   for (var propName in props) {
     var propValue = props[propName]
-    _.setAttr(el, propName, propValue)
+
+    if(_.isEvent(propName)) {
+      _.setEvent(el, propName, propValue)
+    }else {
+      _.setAttr(el, propName, propValue)
+    }
   }
 
   _.each(this.children, function (child) {

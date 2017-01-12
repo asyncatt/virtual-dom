@@ -60,6 +60,8 @@ function setProps (node, props) {
   for (var key in props) {
     if (props[key] === void 666) {
       node.removeAttribute(key)
+    } else if(_.isEvent(key)) {
+      _.setEvent(node, key, value)
     } else {
       var value = props[key]
       _.setAttr(node, key, value)
